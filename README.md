@@ -30,3 +30,28 @@ struct ImageRes {
 }
 ```
 
+
+
+## Usage
+
+在工程目录创建 `.yep.json` 文件
+
+
+
+```json
+{
+    "assetPath": "./LydiaBox/Resource/Assets.xcassets",
+    "colorsDestination": "./LydiaBox/Resource/Color.swift",
+    "imagesDestination": "./LydiaBox/Resource/Resource.swift"
+}
+```
+
+
+
+然后在工程目录执行 shell 命令即可
+
+```shell
+# just works
+yep
+```
+
