@@ -23,12 +23,12 @@ import UIKit
 
 
 struct I18n {
-    // 删除
+    /// "删除"
     @inline(__always) static var delete: String {
         return NSLocalizedString("delete", comment: "")
     }
 
-    // 置顶
+    /// "置顶"
     @inline(__always) static var pin: String {
         return NSLocalizedString("pin", comment: "")
     }
