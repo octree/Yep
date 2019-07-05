@@ -24,7 +24,8 @@ func fileComments(title: String) -> String {
     //
     //  \(title)
     //
-    //  Auto generated via Yep(https://github.com/octree/Yep) on \(dateString).
+    //  ⚠️ DO NOT EDIT.
+    //  Code generated via Yep(https://github.com/octree/Yep) on \(dateString).
     //  Copyright © \(year) Octree. All rights reserved.
     //
     
