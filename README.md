@@ -4,7 +4,9 @@
 
 根据 XCAssets 内容，自动生成 Swift 代码。
 
-
+- [x] 根据 `Assets` 生成 Images 代码
+- [x] 根据 `Assets` 生成 Colors 代码
+- [x] 根据 `.strings` 生成 i18n 代码
 
 eg:
 
@@ -42,7 +44,9 @@ struct ImageRes {
 {
     "assetPath": "./LydiaBox/Resource/Assets.xcassets",
     "colorsDestination": "./LydiaBox/Resource/Color.swift",
-    "imagesDestination": "./LydiaBox/Resource/Resource.swift"
+    "imagesDestination": "./LydiaBox/Resource/Resource.swift",
+    "i18nStringsPath": "./LydiaBox/Resource/I18n/zh-Hans.lproj/LydiaBox.strings",
+    "i18nDestination": "./LydiaBox/Resource/I18n/I18n.swift"
 }
 ```
 
