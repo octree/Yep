@@ -46,7 +46,8 @@ struct ImageRes {
     "colorsDestination": "./LydiaBox/Resource/Color.swift",
     "imagesDestination": "./LydiaBox/Resource/Resource.swift",
     "i18nStringsPath": "./LydiaBox/Resource/I18n/zh-Hans.lproj/LydiaBox.strings",
-    "i18nDestination": "./LydiaBox/Resource/I18n/I18n.swift"
+    "i18nDestination": "./LydiaBox/Resource/I18n/I18n.swift",
+    "useSwiftUI": false
 }
 ```
 
