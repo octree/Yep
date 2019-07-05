@@ -131,7 +131,6 @@ public extension Parser {
                 chs.append(consumeChar())
             }
         }
-        
         try eat("\"")
         return String(chs)
     }

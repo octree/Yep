@@ -43,9 +43,12 @@ func save(code: String, path: String) throws {
 
 func stringsCode(pair:(String, String)) -> String {
     let varibaleName = pair.0.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
-    let comment = pair.1.count > 30 ? pair.1[...30] + "..." : pair.1
+    var comment = pair.1.count > 30 ? pair.1[...30] + "..." : pair.1
+    comment = comment.replacingOccurrences(of: "\n", with: "\\n")
+                     .replacingOccurrences(of: "\t", with: "\\t")
+                     .replacingOccurrences(of: "\"", with: "\\\"")
     return """
-        // \(comment)
+        /// "\(comment)"
         @inline(__always) static var \(varibaleName): String {
             return NSLocalizedString("\(pair.0)", comment: "")
         }
