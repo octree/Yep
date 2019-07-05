@@ -13,6 +13,7 @@
 		C22AE15622CE024A0097A67D /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15522CE024A0097A67D /* Namespace.swift */; };
 		C22AE15822CE02530097A67D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15722CE02530097A67D /* Assets.swift */; };
 		C22AE15C22CE04EE0097A67D /* CodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15B22CE04EE0097A67D /* CodeGenerator.swift */; };
+		C22AE15E22CEEDCE0097A67D /* StringsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15D22CEEDCE0097A67D /* StringsParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,7 @@
 		C22AE15522CE024A0097A67D /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		C22AE15722CE02530097A67D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		C22AE15B22CE04EE0097A67D /* CodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGenerator.swift; sourceTree = "<group>"; };
+		C22AE15D22CEEDCE0097A67D /* StringsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				C22AE15522CE024A0097A67D /* Namespace.swift */,
 				C22AE15722CE02530097A67D /* Assets.swift */,
 				C22AE15B22CE04EE0097A67D /* CodeGenerator.swift */,
+				C22AE15D22CEEDCE0097A67D /* StringsParser.swift */,
 			);
 			path = Yep;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 				C22AE14822CE01560097A67D /* main.swift in Sources */,
 				C22AE14F22CE01EA0097A67D /* Extensions.swift in Sources */,
 				C22AE15822CE02530097A67D /* Assets.swift in Sources */,
+				C22AE15E22CEEDCE0097A67D /* StringsParser.swift in Sources */,
 				C22AE15622CE024A0097A67D /* Namespace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

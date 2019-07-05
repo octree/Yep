@@ -12,6 +12,15 @@ struct Asset {
     enum `Type` {
         case image
         case color
+        
+        var title: String {
+            switch self {
+            case .image:
+                return "Images"
+            case .color:
+                return "Colors"
+            }
+        }
     }
     var name: String
     var type: Type
@@ -19,7 +28,7 @@ struct Asset {
 
 extension Asset {
     private var variableName: String {
-        return name.split { "_-.".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
+        return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
     }
     
     func generateCode(indentation: String, namespace: String) -> String {
