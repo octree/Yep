@@ -31,19 +31,23 @@ extension Asset {
         return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
     }
     
-    func generateCode(indentation: String, namespace: String) -> String {
+    func generateCode(indentation: String, namespace: String, useSwiftUI: Bool = false) -> String {
         let assetName = namespace.count > 0 ? namespace + "/" + name : name
         switch type {
         case .color:
+            let type = useSwiftUI ? "Color" : "UIColor"
+            let initializer = useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
             return """
-            \(indentation)@inline(__always) static var \(variableName): UIColor {
-            \(indentation)    return UIColor(named: "\(assetName)")!
+            \(indentation)@inline(__always) static var \(variableName): \(type) {
+            \(indentation)    return \(initializer)
             \(indentation)}
             """
         case .image:
+            let type = useSwiftUI ? "Image" : "UIImage"
+            let initializer = useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
             return """
-            \(indentation)@inline(__always) static var \(variableName): UIImage {
-            \(indentation)    return UIImage(named: "\(assetName)")!
+            \(indentation)@inline(__always) static var \(variableName): \(type) {
+            \(indentation)    return \(initializer)
             \(indentation)}
             """
         }

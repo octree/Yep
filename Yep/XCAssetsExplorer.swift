@@ -1,5 +1,5 @@
 //
-//  CodeGenerator.swift
+//  XCAssetsExplorer.swift
 //  Yep
 //
 //  Created by Octree on 2019/7/4.

@@ -30,6 +30,7 @@ struct Config: Codable {
     var imagesDestination: String?
     var i18nStringsPath: String?
     var i18nDestination: String?
+    var useSwiftUI: Bool?
 }
 
 let configPath = FileManager.default.currentDirectoryPath.appendingPathComponent(path: ".yep.json")
@@ -77,11 +78,11 @@ do {
     let config = try JSONDecoder().decode(Config.self, from: data)
     let assets = try exploreAssets(atPath: config.assetPath.absolutePath)
     if let path = config.imagesDestination {
-        try save(code: assets.imagesCode, path: path.absolutePath)
+        try save(code: assets.imagesCode(useSwiftUI: config.useSwiftUI == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Images」代码")
     }
     if let path = config.colorsDestination {
-        try save(code: assets.colorsCode, path: path.absolutePath)
+        try save(code: assets.colorsCode(useSwiftUI: config.useSwiftUI == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Colors」代码")
     }
 

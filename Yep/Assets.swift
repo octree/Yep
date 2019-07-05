@@ -13,13 +13,24 @@ struct Assets {
     var colorsTree: Namespace
 }
 
-func fileComments(title: String) -> String {
+func fileComments(title: String, useSwiftUI: Bool = false) -> String {
     let date = Date()
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy/M/d"
     let dateString = formatter.string(from: date)
     formatter.dateFormat = "yyyy"
     let year = formatter.string(from: date)
+    let imports: String
+    if useSwiftUI {
+        imports = """
+        import UIKit
+        import SwiftUI
+        """
+    } else {
+        imports = """
+        import UIKit
+        """
+    }
     return """
     //
     //  \(title)
@@ -29,18 +40,18 @@ func fileComments(title: String) -> String {
     //  Copyright © \(year) Octree. All rights reserved.
     //
     
-    import UIKit
+    \(imports)
     
     
     """
 }
 
 extension Assets {
-    var colorsCode: String {
-        return fileComments(title: "Colors") + colorsTree.generateCode()
+    func colorsCode(useSwiftUI: Bool = false) -> String {
+        return fileComments(title: "Colors", useSwiftUI: useSwiftUI) + colorsTree.generateCode(useSwiftUI: useSwiftUI)
     }
     
-    var imagesCode: String {
-        return fileComments(title: "Images") + imagesTree.generateCode()
+    func imagesCode(useSwiftUI: Bool = false) -> String {
+        return fileComments(title: "Images", useSwiftUI: useSwiftUI) + imagesTree.generateCode(useSwiftUI: useSwiftUI)
     }
 }

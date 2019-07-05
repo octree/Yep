@@ -28,16 +28,16 @@ class Namespace {
 
 extension Namespace {
     
-    func generateCode(namespace: String = "", indentation: String = "") -> String {
+    func generateCode(namespace: String = "", indentation: String = "", useSwiftUI: Bool = false) -> String {
         let fullNamespace = isRoot ? "" : (namespace.count > 0 ? namespace + "/" + name : name)
         
         var codes = [String]()
         if assets.count > 0 {
-            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace) }.joined(separator: "\n\n"))
+            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, useSwiftUI: useSwiftUI) }.joined(separator: "\n\n"))
         }
         
         if sub.count > 0 {
-            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ") }.joined(separator: "\n\n"))
+            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", useSwiftUI: useSwiftUI) }.joined(separator: "\n\n"))
         }
         
         return """
