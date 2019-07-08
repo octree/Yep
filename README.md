@@ -84,7 +84,7 @@ struct ImageRes {
 
 
 
-然后在工程目录执行 shell 命令即可
+然后在工程目录执行命令即可
 
 ```shell
 # just works
