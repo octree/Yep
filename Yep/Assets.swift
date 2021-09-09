@@ -41,15 +41,22 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
     //
     
     \(imports)
+    
     """
 }
 
 extension Assets {
     func colorsCode(useSwiftUI: Bool = false, isSPM: Bool = false) -> String {
-        return fileComments(title: "Colors", useSwiftUI: useSwiftUI) + colorsTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/")
+        return """
+        \(fileComments(title: "Color Assets", useSwiftUI: useSwiftUI))
+        \(colorsTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        """
     }
     
     func imagesCode(useSwiftUI: Bool = false, isSPM: Bool = true) -> String {
-        return fileComments(title: "Images", useSwiftUI: useSwiftUI) + imagesTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/")
+        return """
+        \(fileComments(title: "Image Assets", useSwiftUI: useSwiftUI))
+        \(imagesTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        """
     }
 }

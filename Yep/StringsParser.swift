@@ -166,7 +166,7 @@ public extension Parser {
 
 
 extension Parser {
-    func parseToTree(source: String) throws -> Namespace {
+    func parseToTree() throws -> Namespace {
         let root = Namespace(name: "I18n")
         let result = try parse()
         for (key, _) in result {

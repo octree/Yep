@@ -17,11 +17,11 @@ struct Asset {
         var title: String {
             switch self {
             case .image:
-                return "Images"
+                return "Image Assets"
             case .color:
-                return "Colors"
+                return "Color Assets"
             case .string:
-                return "String"
+                return "I18n Assets"
             }
         }
     }
@@ -40,13 +40,13 @@ extension Asset {
             }
         case .image:
             if isSPM {
-                return useSwiftUI ? #"Image("\#(assetName)", bundle: nil)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)"#
+                return useSwiftUI ? #"Image("\#(assetName)", bundle: nil)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
             } else {
                 return useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
             }
         case .color:
             if isSPM {
-                return useSwiftUI ? #"Color("\#(assetName)", bundle: nil)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)"#
+                return useSwiftUI ? #"Color("\#(assetName)", bundle: nil)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
             } else {
                 return useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
             }
@@ -92,5 +92,14 @@ extension Asset {
 extension Asset: Comparable {
     static func < (lhs: Asset, rhs: Asset) -> Bool {
         return lhs.name < rhs.name
+    }
+}
+
+
+extension Asset: CustomStringConvertible {
+    var description: String {
+        """
+        \(name)
+        """
     }
 }

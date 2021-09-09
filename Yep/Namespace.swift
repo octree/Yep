@@ -67,8 +67,23 @@ extension Namespace {
         guard let first = pathComponents.first else {
             return self
         }
-        let namespace: Namespace = sub.first { $0.name == first } ?? .init(name: first)
-        sub.append(namespace)
+        let namespace: Namespace
+        if let node = sub.first(where: { $0.name == first }) {
+            namespace = node
+        } else {
+            namespace = .init(name: first)
+            sub.append(namespace)
+        }
         return namespace.findOrCreateNamespace(for: pathComponents.dropFirst())
+    }
+}
+
+extension Namespace: CustomStringConvertible {
+    var description: String {
+        """
+        \(name)
+            \(assets)
+            \(sub)
+        """
     }
 }

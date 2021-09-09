@@ -21,7 +21,7 @@ func save(code: String, path: String) throws {
 func generateI18nCode(path: String, destination: String, isSPM: Bool) {
     do {
         let source = try String(contentsOf: URL(fileURLWithPath: path))
-        let tree = try Parser(input: source).parseToTree(source: source)
+        let tree = try Parser(input: source).parseToTree()
         let code = """
         \(fileComments(title: "I18n"))
         \(tree.generateCode(namespace: "", indentation: "", useSwiftUI: false, isSPM: isSPM, separator: "."))
