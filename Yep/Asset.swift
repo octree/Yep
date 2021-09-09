@@ -1,11 +1,3 @@
-//
-//  Asset.swift
-//  Yep
-//
-//  Created by Octree on 2019/7/4.
-//  Copyright © 2019 Octree. All rights reserved.
-//
-
 import Foundation
 
 struct Asset {
@@ -13,7 +5,7 @@ struct Asset {
         case image
         case color
         case string
-        
+
         var title: String {
             switch self {
             case .image:
@@ -25,6 +17,7 @@ struct Asset {
             }
         }
     }
+
     var name: String
     var type: Type
 }
@@ -58,7 +51,7 @@ extension Asset {
     func returnType(useSwiftUI: Bool) -> String {
         switch type {
         case .string:
-           return "String"
+            return "String"
         case .image:
             return useSwiftUI ? "Image" : "UIImage"
         case .color:
@@ -71,12 +64,13 @@ extension Asset {
     private var variableName: String {
         return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter }.joined().lowercasedFirstLetter
     }
-    
+
     func generateCode(indentation: String,
                       namespace: String,
                       useSwiftUI: Bool = false,
                       isSPM: Bool = false,
-                      separator: String = "/") -> String {
+                      separator: String = "/") -> String
+    {
         let assetName = namespace.count > 0 ? namespace + separator + name : name
         let type = returnType(useSwiftUI: useSwiftUI)
         let initializer = initializer(assetName: assetName, isSPM: isSPM, useSwiftUI: useSwiftUI)
@@ -88,13 +82,11 @@ extension Asset {
     }
 }
 
-
 extension Asset: Comparable {
     static func < (lhs: Asset, rhs: Asset) -> Bool {
         return lhs.name < rhs.name
     }
 }
-
 
 extension Asset: CustomStringConvertible {
     var description: String {

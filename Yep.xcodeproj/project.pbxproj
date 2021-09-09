@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C22AE14822CE01560097A67D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE14722CE01560097A67D /* main.swift */; };
-		C22AE14F22CE01EA0097A67D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE14E22CE01EA0097A67D /* Extensions.swift */; };
+		C22AE14F22CE01EA0097A67D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE14E22CE01EA0097A67D /* String+Extensions.swift */; };
 		C22AE15422CE02400097A67D /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15322CE02400097A67D /* Asset.swift */; };
 		C22AE15622CE024A0097A67D /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15522CE024A0097A67D /* Namespace.swift */; };
 		C22AE15822CE02530097A67D /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AE15722CE02530097A67D /* Assets.swift */; };
@@ -31,7 +31,7 @@
 /* Begin PBXFileReference section */
 		C22AE14422CE01560097A67D /* Yep */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yep; sourceTree = BUILT_PRODUCTS_DIR; };
 		C22AE14722CE01560097A67D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		C22AE14E22CE01EA0097A67D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C22AE14E22CE01EA0097A67D /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		C22AE15322CE02400097A67D /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		C22AE15522CE024A0097A67D /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		C22AE15722CE02530097A67D /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -70,7 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				C22AE14722CE01560097A67D /* main.swift */,
-				C22AE14E22CE01EA0097A67D /* Extensions.swift */,
+				C22AE14E22CE01EA0097A67D /* String+Extensions.swift */,
 				C22AE15322CE02400097A67D /* Asset.swift */,
 				C22AE15522CE024A0097A67D /* Namespace.swift */,
 				C22AE15722CE02530097A67D /* Assets.swift */,
@@ -141,7 +141,7 @@
 				C22AE15422CE02400097A67D /* Asset.swift in Sources */,
 				C22AE15C22CE04EE0097A67D /* XCAssetsExplorer.swift in Sources */,
 				C22AE14822CE01560097A67D /* main.swift in Sources */,
-				C22AE14F22CE01EA0097A67D /* Extensions.swift in Sources */,
+				C22AE14F22CE01EA0097A67D /* String+Extensions.swift in Sources */,
 				C22AE15822CE02530097A67D /* Assets.swift in Sources */,
 				C22AE15E22CEEDCE0097A67D /* StringsParser.swift in Sources */,
 				C22AE15622CE024A0097A67D /* Namespace.swift in Sources */,

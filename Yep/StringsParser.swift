@@ -12,17 +12,16 @@ enum ParseError: Error {
     case notMatch
 }
 
-
 public class Parser {
-    
     /// current position
     var pos: Int = 0
     /// source code
     var input: String
     ///
     var startIndex: String.Index {
-        return input.index(input.startIndex, offsetBy: self.pos)
+        return input.index(input.startIndex, offsetBy: pos)
     }
+
     /// is current position end of file
     var eof: Bool {
         return pos >= input.count
@@ -48,17 +47,13 @@ public class Parser {
     }
 }
 
-
 public extension Parser {
-    
     func startWith(_ str: String) -> Bool {
-        
         return input[startIndex...].hasPrefix(str)
     }
     
     func nextChar() -> Character {
-        
-        return input[self.pos]
+        return input[pos]
     }
     
     @discardableResult
@@ -69,11 +64,9 @@ public extension Parser {
         return input[pos]
     }
     
-    
     func consumeWhiteSpace() {
         consumeWhile { $0.isWhitespace }
     }
-    
     
     func parsePair() throws -> (String, String) {
         try skip()
@@ -82,7 +75,7 @@ public extension Parser {
         try eat("=")
         try skip()
         let val = try parseString()
-        try skip();
+        try skip()
         try eat(";")
         return (key, val)
     }
@@ -103,9 +96,8 @@ public extension Parser {
     
     @discardableResult
     func consumeWhile(_ test: (Character) -> Bool) -> String {
-        
         var chars = [Character]()
-        while !eof && test(nextChar()) {
+        while !eof, test(nextChar()) {
             chars.append(consumeChar())
         }
         return String(chars)
@@ -115,13 +107,13 @@ public extension Parser {
         guard startWith(text) else {
             throw ParseError.notMatch
         }
-        (0..<text.count).forEach { _ in consumeChar() }
+        (0 ..< text.count).forEach { _ in consumeChar() }
     }
     
     func parseString() throws -> String {
         try eat("\"")
         var chs = [Character]()
-        while !eof && nextChar() != "\"" {
+        while !eof, nextChar() != "\"" {
             if nextChar() == "\\" {
                 consumeChar()
                 if !eof {
@@ -147,23 +139,22 @@ public extension Parser {
     }
     
     private func escaped(_ char: Character) throws -> Character {
-        switch (char) {
+        switch char {
         case "\"":
-            return "\"";
+            return "\""
         case "\'":
-            return "\'";
+            return "\'"
         case "n":
-            return "\n";
+            return "\n"
         case "t":
-            return "\t";
+            return "\t"
         case "\\":
-            return "\\";
+            return "\\"
         default:
             throw ParseError.notMatch
         }
     }
 }
-
 
 extension Parser {
     func parseToTree() throws -> Namespace {
