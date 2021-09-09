@@ -1,0 +1,9 @@
+{
+    "assetPath": "./Sources/Assets/Resources/Media.xcassets",
+    "colorsDestination": "./Sources/Assets/Generated/ColorAssets.swift",
+    "imagesDestination": "./Sources/Assets/Generated/ImageAssets.swift",
+    "i18nStringsPath": "./Sources/Assets/Resources/en.lproj/Localizable.strings",
+    "i18nDestination": "./Sources/Assets/Generated/I18n.swift",
+    "useSwiftUI": false,
+    "isSPM": true
+}
