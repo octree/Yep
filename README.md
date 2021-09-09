@@ -73,12 +73,13 @@ struct ImageRes {
 
 ```json
 {
-    "assetPath": "./LydiaBox/Resource/Assets.xcassets",
-    "colorsDestination": "./LydiaBox/Resource/Color.swift",
-    "imagesDestination": "./LydiaBox/Resource/Resource.swift",
-    "i18nStringsPath": "./LydiaBox/Resource/I18n/zh-Hans.lproj/Localizable.strings",
-    "i18nDestination": "./LydiaBox/Resource/I18n/I18n.swift",
-    "useSwiftUI": false
+    "assetPath": "./Sources/Assets/Resources/Media.xcassets",
+    "colorsDestination": "./Sources/Assets/Generated/ColorAssets.swift",
+    "imagesDestination": "./Sources/Assets/Generated/ImageAssets.swift",
+    "i18nStringsPath": "./Sources/Assets/Resources/en.lproj/Localizable.strings",
+    "i18nDestination": "./Sources/Assets/Generated/I18n.swift",
+    "useSwiftUI": false,
+    "isSPM": true
 }
 ```
 
