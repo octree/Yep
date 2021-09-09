@@ -28,21 +28,25 @@ class Namespace {
 
 extension Namespace {
     
-    func generateCode(namespace: String = "", indentation: String = "", useSwiftUI: Bool = false) -> String {
-        let fullNamespace = isRoot ? "" : (namespace.count > 0 ? namespace + "/" + name : name)
+    func generateCode(namespace: String = "",
+                      indentation: String = "",
+                      useSwiftUI: Bool = false,
+                      isSPM: Bool = false,
+                      separator: String = "/") -> String {
+        let fullNamespace = isRoot ? "" : (namespace.count > 0 ? namespace + separator + name : name)
         
         var codes = [String]()
         if assets.count > 0 {
-            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, useSwiftUI: useSwiftUI) }.joined(separator: "\n\n"))
+            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, useSwiftUI: useSwiftUI, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
         }
         
         if sub.count > 0 {
-            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", useSwiftUI: useSwiftUI) }.joined(separator: "\n\n"))
+            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
         }
         
         return """
         \(indentation)// MARK: - \(name)
-        \(indentation)struct \(name) {
+        \(indentation)public enum \(name) {
         \(codes.joined(separator: "\n\n"))
         \(indentation)}
         """

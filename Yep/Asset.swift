@@ -12,6 +12,7 @@ struct Asset {
     enum `Type` {
         case image
         case color
+        case string
         
         var title: String {
             switch self {
@@ -19,6 +20,8 @@ struct Asset {
                 return "Images"
             case .color:
                 return "Colors"
+            case .string:
+                return "String"
             }
         }
     }
@@ -27,30 +30,61 @@ struct Asset {
 }
 
 extension Asset {
+    func initializer(assetName: String, isSPM: Bool, useSwiftUI: Bool) -> String {
+        switch type {
+        case .string:
+            if isSPM {
+                return #"NSLocalizedString("\#(assetName)", tableName: nil, bundle: .module, comment: "")"#
+            } else {
+                return #"NSLocalizedString("\#(assetName)")", comment: "")"#
+            }
+        case .image:
+            if isSPM {
+                return useSwiftUI ? #"Image("\#(assetName)", bundle: nil)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)"#
+            } else {
+                return useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
+            }
+        case .color:
+            if isSPM {
+                return useSwiftUI ? #"Color("\#(assetName)", bundle: nil)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)"#
+            } else {
+                return useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
+            }
+        }
+    }
+}
+
+extension Asset {
+    func returnType(useSwiftUI: Bool) -> String {
+        switch type {
+        case .string:
+           return "String"
+        case .image:
+            return useSwiftUI ? "Image" : "UIImage"
+        case .color:
+            return useSwiftUI ? "Color" : "UIColor"
+        }
+    }
+}
+
+extension Asset {
     private var variableName: String {
         return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
     }
     
-    func generateCode(indentation: String, namespace: String, useSwiftUI: Bool = false) -> String {
-        let assetName = namespace.count > 0 ? namespace + "/" + name : name
-        switch type {
-        case .color:
-            let type = useSwiftUI ? "Color" : "UIColor"
-            let initializer = useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
-            return """
-            \(indentation)@inline(__always) static var \(variableName): \(type) {
-            \(indentation)    return \(initializer)
-            \(indentation)}
-            """
-        case .image:
-            let type = useSwiftUI ? "Image" : "UIImage"
-            let initializer = useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
-            return """
-            \(indentation)@inline(__always) static var \(variableName): \(type) {
-            \(indentation)    return \(initializer)
-            \(indentation)}
-            """
-        }
+    func generateCode(indentation: String,
+                      namespace: String,
+                      useSwiftUI: Bool = false,
+                      isSPM: Bool = false,
+                      separator: String = "/") -> String {
+        let assetName = namespace.count > 0 ? namespace + separator + name : name
+        let type = returnType(useSwiftUI: useSwiftUI)
+        let initializer = initializer(assetName: assetName, isSPM: isSPM, useSwiftUI: useSwiftUI)
+        return """
+        \(indentation)static public var \(variableName): \(type) {
+        \(indentation)    return \(initializer)
+        \(indentation)}
+        """
     }
 }
 

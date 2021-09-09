@@ -48,8 +48,7 @@ func stringsCode(pair:(String, String)) -> String {
                      .replacingOccurrences(of: "\t", with: "\\t")
                      .replacingOccurrences(of: "\"", with: "\\\"")
     return """
-        /// "\(comment)"
-        @inline(__always) static var \(varibaleName): String {
+        public static var \(varibaleName): String {
             return NSLocalizedString("\(pair.0)", comment: "")
         }
     """

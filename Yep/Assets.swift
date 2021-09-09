@@ -41,8 +41,6 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
     //
     
     \(imports)
-    
-    
     """
 }
 

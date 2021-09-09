@@ -85,9 +85,9 @@ func exploreAssets(atPath path: String) throws -> Assets {
     guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir), isDir.boolValue else {
         throw YepError.fileNotExists
     }
-    let imageNamespace = Namespace(name: "ImageRes")
+    let imageNamespace = Namespace(name: "ImageAssets")
     imageNamespace.isRoot = true
-    let colorNamespace = Namespace(name: "ColorRes")
+    let colorNamespace = Namespace(name: "ColorAssets")
     colorNamespace.isRoot = true
     exploreAssets(at: URL(fileURLWithPath: path), imageNamespace: imageNamespace, colorNamespace: colorNamespace)
     return Assets(imagesTree: imageNamespace, colorsTree: colorNamespace)
