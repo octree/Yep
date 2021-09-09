@@ -69,7 +69,7 @@ extension Asset {
 
 extension Asset {
     private var variableName: String {
-        return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter() }.joined().lowercaseFirstLetter()
+        return name.split { "_-. ".contains($0) }.map { String($0).capitalizingFirstLetter }.joined().lowercasedFirstLetter
     }
     
     func generateCode(indentation: String,

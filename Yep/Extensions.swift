@@ -34,13 +34,13 @@ extension String {
         return nsSt.appendingPathExtension(ext)
     }
     
-    func capitalizingFirstLetter() -> String {
+    var capitalizingFirstLetter: String {
         let first = String(prefix(1)).capitalized
         let other = String(dropFirst())
         return first + other
     }
     
-    func lowercaseFirstLetter() -> String {
+    var lowercasedFirstLetter: String {
         let first = String(prefix(1)).lowercased()
         let other = String(dropFirst())
         return first + other

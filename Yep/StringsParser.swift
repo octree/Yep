@@ -163,3 +163,18 @@ public extension Parser {
         }
     }
 }
+
+
+extension Parser {
+    func parseToTree(source: String) throws -> Namespace {
+        let root = Namespace(name: "I18n")
+        let result = try parse()
+        for (key, _) in result {
+            let components = key.split(separator: ".").map { String($0) }
+            let name = components.last!
+            let namespace = root.findOrCreateNamespace(for: components.dropLast())
+            namespace.assets.append(.init(name: name, type: .string))
+        }
+        return root
+    }
+}

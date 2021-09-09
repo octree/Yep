@@ -45,11 +45,11 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
 }
 
 extension Assets {
-    func colorsCode(useSwiftUI: Bool = false) -> String {
-        return fileComments(title: "Colors", useSwiftUI: useSwiftUI) + colorsTree.generateCode(useSwiftUI: useSwiftUI)
+    func colorsCode(useSwiftUI: Bool = false, isSPM: Bool = false) -> String {
+        return fileComments(title: "Colors", useSwiftUI: useSwiftUI) + colorsTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/")
     }
     
-    func imagesCode(useSwiftUI: Bool = false) -> String {
-        return fileComments(title: "Images", useSwiftUI: useSwiftUI) + imagesTree.generateCode(useSwiftUI: useSwiftUI)
+    func imagesCode(useSwiftUI: Bool = false, isSPM: Bool = true) -> String {
+        return fileComments(title: "Images", useSwiftUI: useSwiftUI) + imagesTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/")
     }
 }
