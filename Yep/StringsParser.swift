@@ -159,6 +159,7 @@ public extension Parser {
 extension Parser {
     func parseToTree() throws -> Namespace {
         let root = Namespace(name: "I18n")
+        root.isRoot = true
         let result = try parse()
         for (key, _) in result {
             let components = key.split(separator: ".").map { String($0) }
