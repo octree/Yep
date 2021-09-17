@@ -75,7 +75,7 @@ extension Asset {
         let type = returnType(useSwiftUI: useSwiftUI)
         let initializer = initializer(assetName: assetName, isSPM: isSPM, useSwiftUI: useSwiftUI)
         return """
-        \(indentation)static public var \(variableName): \(type) {
+        \(indentation)public static var \(variableName): \(type) {
         \(indentation)    return \(initializer)
         \(indentation)}
         """

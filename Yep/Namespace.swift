@@ -45,6 +45,7 @@ extension Namespace {
 
         return """
         \(indentation)// MARK: - \(name)
+
         \(indentation)public enum \(name) {
         \(codes.joined(separator: "\n\n"))
         \(indentation)}
