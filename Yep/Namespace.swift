@@ -15,7 +15,10 @@ class Namespace {
     var isRoot: Bool = false
 
     var isEmpty: Bool {
-        return assets.count == 0 && sub.count == 0
+        guard assets.count == 0 else {
+            return false
+        }
+        return sub.allSatisfy { $0.isEmpty }
     }
 
     init(name: String, assets: [Asset] = [], sub: [Namespace] = []) {
