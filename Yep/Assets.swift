@@ -23,7 +23,6 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
     let imports: String
     if useSwiftUI {
         imports = """
-        import UIKit
         import SwiftUI
         """
     } else {
@@ -49,14 +48,18 @@ extension Assets {
     func colorsCode(useSwiftUI: Bool = false, isSPM: Bool = false) -> String {
         return """
         \(fileComments(title: "Color Assets", useSwiftUI: useSwiftUI))
-        \(colorsTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        extension \(useSwiftUI ? "Color": "UIColor") {
+        \(colorsTree.generateCode(indentation: "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        }
         """
     }
     
     func imagesCode(useSwiftUI: Bool = false, isSPM: Bool = true) -> String {
         return """
         \(fileComments(title: "Image Assets", useSwiftUI: useSwiftUI))
-        \(imagesTree.generateCode(useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        extension \(useSwiftUI ? "Image": "UIImage") {
+        \(imagesTree.generateCode(indentation: "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        }
         """
     }
 }

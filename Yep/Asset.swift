@@ -33,13 +33,13 @@ extension Asset {
             }
         case .image:
             if isSPM {
-                return useSwiftUI ? #"Image("\#(assetName)", bundle: nil)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
+                return useSwiftUI ? #"Image("\#(assetName)", bundle: .module)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
             } else {
                 return useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
             }
         case .color:
             if isSPM {
-                return useSwiftUI ? #"Color("\#(assetName)", bundle: nil)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
+                return useSwiftUI ? #"Color("\#(assetName)", bundle: .module)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
             } else {
                 return useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
             }

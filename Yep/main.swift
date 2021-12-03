@@ -2,11 +2,12 @@ import Foundation
 
 struct Config: Codable {
     var assetPath: String
-    var colorsDestination: String?
-    var imagesDestination: String?
+    var uiColorDestination: String?
+    var uiImageDestination: String?
+    var swiftUIColorDestination: String?
+    var swiftUIImageDestination: String?
     var i18nStringsPath: String?
     var i18nDestination: String?
-    var useSwiftUI: Bool?
     var isSPM: Bool?
 }
 
@@ -41,13 +42,24 @@ do {
     let data = try Data(contentsOf: URL(fileURLWithPath: configPath))
     let config = try JSONDecoder().decode(Config.self, from: data)
     let assets = try exploreAssets(atPath: config.assetPath.absolutePath)
-    if let path = config.imagesDestination {
-        try save(code: assets.imagesCode(useSwiftUI: config.useSwiftUI == true, isSPM: config.isSPM == true), path: path.absolutePath)
-        print("🍻 \u{001b}[38;5;35m成功生成「Images」代码")
+    if let path = config.uiImageDestination {
+        try save(code: assets.imagesCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIImage」代码")
     }
-    if let path = config.colorsDestination {
-        try save(code: assets.colorsCode(useSwiftUI: config.useSwiftUI == true, isSPM: config.isSPM == true), path: path.absolutePath)
-        print("🍻 \u{001b}[38;5;35m成功生成「Colors」代码")
+    
+    if let path = config.swiftUIImageDestination {
+        try save(code: assets.imagesCode(useSwiftUI: true, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for SwiftUI.Image」代码")
+    }
+    
+    if let path = config.uiColorDestination {
+        try save(code: assets.colorsCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIColor」代码")
+    }
+    
+    if let path = config.swiftUIColorDestination {
+        try save(code: assets.colorsCode(useSwiftUI: true, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for SwiftUI.Color」代码")
     }
 
     if let path = config.i18nStringsPath, let destination = config.i18nDestination {
