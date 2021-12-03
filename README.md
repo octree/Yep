@@ -47,18 +47,15 @@ struct I18n {
 //  Copyright © 2019 Octree. All rights reserved.
 //
 
-import UIKit
+import SwiftUI
 
 // MARK: - ImageRes
-struct ImageRes {
-    @inline(__always) static var addFill: UIImage {
-        return UIImage(named: "add-fill")!
-    }
-    
-    // MARK: - GroupA
-    struct GroupA {
-        @inline(__always) static var addFill: UIImage {
-            return UIImage(named: "GroupA/add-fill")!
+extension Image {
+    public enum Assets {
+        public enum CalendarUI {
+            public static var chevronLeft: Image {
+                return Image("CalendarUI/chevronLeft", bundle: .module)
+            }
         }
     }
 }
@@ -74,11 +71,12 @@ struct ImageRes {
 ```json
 {
     "assetPath": "./Sources/Assets/Resources/Media.xcassets",
-    "colorsDestination": "./Sources/Assets/Generated/ColorAssets.swift",
-    "imagesDestination": "./Sources/Assets/Generated/ImageAssets.swift",
+    "uiColorDestination": "./Sources/Assets/Generated/UIColor.Generated.swift",
+    "uiImageDestination": "./Sources/Assets/Generated/UIImage.Generated.swift",
+    "swiftUIColorDestination": "./Sources/Assets/Generated/Color.Generated.swift",
+    "swiftUIImageDestination": "./Sources/Assets/Generated/Image.Generated.swift",
     "i18nStringsPath": "./Sources/Assets/Resources/en.lproj/Localizable.strings",
     "i18nDestination": "./Sources/Assets/Generated/I18n.swift",
-    "useSwiftUI": false,
     "isSPM": true
 }
 ```
