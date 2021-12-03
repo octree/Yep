@@ -1,9 +1,10 @@
 {
     "assetPath": "./Sources/Assets/Resources/Media.xcassets",
-    "colorsDestination": "./Sources/Assets/Generated/ColorAssets.swift",
-    "imagesDestination": "./Sources/Assets/Generated/ImageAssets.swift",
+    "uiColorDestination": "./Sources/Assets/Generated/UIColor.Generated.swift",
+    "uiImageDestination": "./Sources/Assets/Generated/UIImage.Generated.swift",
+    "swiftUIColorDestination": "./Sources/Assets/Generated/Color.Generated.swift",
+    "swiftUIImageDestination": "./Sources/Assets/Generated/Image.Generated.swift",
     "i18nStringsPath": "./Sources/Assets/Resources/en.lproj/Localizable.strings",
     "i18nDestination": "./Sources/Assets/Generated/I18n.swift",
-    "useSwiftUI": false,
     "isSPM": true
-}
+}{
