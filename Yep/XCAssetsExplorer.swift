@@ -80,14 +80,15 @@ extension YepError {
     }
 }
 
-func exploreAssets(atPath path: String) throws -> Assets {
+func exploreAssets(atPath path: String, namespace: String?) throws -> Assets {
+    let namespace = namespace?.capitalizingFirstLetter ?? "Assets"
     var isDir: ObjCBool = false
     guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir), isDir.boolValue else {
         throw YepError.fileNotExists
     }
-    let imageNamespace = Namespace(name: "Assets")
+    let imageNamespace = Namespace(name: namespace)
     imageNamespace.isRoot = true
-    let colorNamespace = Namespace(name: "Assets")
+    let colorNamespace = Namespace(name: namespace)
     colorNamespace.isRoot = true
     exploreAssets(at: URL(fileURLWithPath: path), imageNamespace: imageNamespace, colorNamespace: colorNamespace)
     return Assets(imagesTree: imageNamespace, colorsTree: colorNamespace)

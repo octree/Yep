@@ -8,6 +8,7 @@ struct Config: Codable {
     var swiftUIImageDestination: String?
     var i18nStringsPath: String?
     var i18nDestination: String?
+    var assetNamespace: String?
     var isSPM: Bool?
 }
 
@@ -41,7 +42,7 @@ func generateI18nCode(path: String, destination: String, isSPM: Bool) {
 do {
     let data = try Data(contentsOf: URL(fileURLWithPath: configPath))
     let config = try JSONDecoder().decode(Config.self, from: data)
-    let assets = try exploreAssets(atPath: config.assetPath.absolutePath)
+    let assets = try exploreAssets(atPath: config.assetPath.absolutePath, namespace: config.assetNamespace)
     if let path = config.uiImageDestination {
         try save(code: assets.imagesCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIImage」代码")
