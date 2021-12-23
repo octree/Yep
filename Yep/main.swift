@@ -1,17 +1,5 @@
 import Foundation
 
-struct Config: Codable {
-    var assetPath: String
-    var uiColorDestination: String?
-    var uiImageDestination: String?
-    var swiftUIColorDestination: String?
-    var swiftUIImageDestination: String?
-    var i18nStringsPath: String?
-    var i18nDestination: String?
-    var assetNamespace: String?
-    var isSPM: Bool?
-}
-
 let configPath = FileManager.default.currentDirectoryPath.appendingPathComponent(path: ".yep.json")
 
 func save(code: String, path: String) throws {
@@ -41,8 +29,9 @@ func generateI18nCode(path: String, destination: String, isSPM: Bool) {
 
 do {
     let data = try Data(contentsOf: URL(fileURLWithPath: configPath))
-    let config = try JSONDecoder().decode(Config.self, from: data)
-    let assets = try exploreAssets(atPath: config.assetPath.absolutePath, namespace: config.assetNamespace)
+    let config = try JSONDecoder().decode(Configuration.self, from: data)
+    let walker = AssetsWalker(path: config.assetPath.absolutePath, namespace: config.assetNamespace)
+    let assets = try walker.walk()
     if let path = config.uiImageDestination {
         try save(code: assets.imagesCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIImage」代码")

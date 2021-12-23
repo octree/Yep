@@ -8,10 +8,6 @@
 
 import Foundation
 
-enum ParseError: Error {
-    case notMatch
-}
-
 public class Parser {
     /// current position
     var pos: Int = 0
