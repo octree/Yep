@@ -33,12 +33,12 @@ func fileComments(title: String, target: Target?) -> String {
         switch target {
         case .appKit:
             imports = """
-            #if canImport(AppKit) && !targetEnvironment(macCatalyst)
+            #if os(macOS) && !targetEnvironment(macCatalyst)
             import AppKit
             """
         case .uiKit:
             imports = """
-            #if canImport(UIKit)
+            #if !os(macOS) || targetEnvironment(macCatalyst)
             import UIKit
             """
         case .swiftUI:
