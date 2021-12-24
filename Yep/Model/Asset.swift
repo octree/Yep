@@ -23,40 +23,74 @@ struct Asset {
 }
 
 extension Asset {
-    func initializer(assetName: String, isSPM: Bool, useSwiftUI: Bool) -> String {
-        switch type {
-        case .string:
-            if isSPM {
-                return #"NSLocalizedString("\#(assetName)", tableName: nil, bundle: .module, comment: "")"#
-            } else {
-                return #"NSLocalizedString("\#(assetName)")", comment: "")"#
-            }
-        case .image:
-            if isSPM {
-                return useSwiftUI ? #"Image("\#(assetName)", bundle: .module)"# : #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
-            } else {
-                return useSwiftUI ? #"Color("\#(assetName)")"# : #"UIColor(named: "\#(assetName)")!"#
-            }
-        case .color:
-            if isSPM {
-                return useSwiftUI ? #"Color("\#(assetName)", bundle: .module)"# : #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
-            } else {
-                return useSwiftUI ? #"Image("\#(assetName)")"# : #"UIImage(named: "\#(assetName)")!"#
-            }
+    func initializer(assetName: String, isSPM: Bool, target: Target) -> String {
+        switch (type, isSPM, target) {
+        case (.string, true, _):
+            return #"NSLocalizedString("\#(assetName)", tableName: nil, bundle: .module, comment: "")"#
+        case (.string, false, _):
+            return #"NSLocalizedString("\#(assetName)")", comment: "")"#
+
+        case (.image, true, .appKit):
+            return #"Bundle.module.image(forResource: "\#(assetName)")!"#
+        case (.image, false, .appKit):
+            return #"NSImage(named: "\#(assetName)")!"#
+
+        case (.image, true, .uiKit):
+            return #"UIImage(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
+        case (.image, false, .uiKit):
+            return #"UIImage("\#(assetName)")"#
+
+        case (.image, true, .swiftUI):
+            return #"Image("\#(assetName)", bundle: .module)"#
+        case (.image, false, .swiftUI):
+            return #"Image("\#(assetName)")"#
+
+        case (.color, true, .appKit):
+            return #"NSColor(named: "\#(assetName)", bundle: .module)!"#
+        case (.color, false, .appKit):
+            return #"NSImage(named: "\#(assetName)")!"#
+
+        case (.color, true, .uiKit):
+            return #"UIColor(named: "\#(assetName)", in: .module, compatibleWith: nil)!"#
+        case (.color, false, .uiKit):
+            return #"UIColor("\#(assetName)")"#
+
+        case (.color, true, .swiftUI):
+            return #"Color("\#(assetName)", bundle: .module)"#
+        case (.color, false, .swiftUI):
+            return #"Color("\#(assetName)")"#
         }
     }
 }
 
 extension Asset {
-    func returnType(useSwiftUI: Bool) -> String {
+    static func returnType(type: `Type`, target: Target) -> String {
         switch type {
         case .string:
             return "String"
         case .image:
-            return useSwiftUI ? "Image" : "UIImage"
+            switch target {
+            case .appKit:
+                return "NSImage"
+            case .uiKit:
+                return "UIImage"
+            case .swiftUI:
+                return "Image"
+            }
         case .color:
-            return useSwiftUI ? "Color" : "UIColor"
+            switch target {
+            case .appKit:
+                return "NSColor"
+            case .uiKit:
+                return "UIColor"
+            case .swiftUI:
+                return "Color"
+            }
         }
+    }
+
+    func returnType(target: Target) -> String {
+        Self.returnType(type: type, target: target)
     }
 }
 
@@ -67,13 +101,13 @@ extension Asset {
 
     func generateCode(indentation: String,
                       namespace: String,
-                      useSwiftUI: Bool = false,
+                      target: Target,
                       isSPM: Bool = false,
                       separator: String = "/") -> String
     {
         let assetName = namespace.count > 0 ? namespace + separator + name : name
-        let type = returnType(useSwiftUI: useSwiftUI)
-        let initializer = initializer(assetName: assetName, isSPM: isSPM, useSwiftUI: useSwiftUI)
+        let type = returnType(target: target)
+        let initializer = initializer(assetName: assetName, isSPM: isSPM, target: target)
         return """
         \(indentation)public static var \(variableName): \(type) {
         \(indentation)    return \(initializer)

@@ -31,7 +31,7 @@ class Namespace {
 extension Namespace {
     func generateCode(namespace: String = "",
                       indentation: String = "",
-                      useSwiftUI: Bool = false,
+                      target: Target,
                       isSPM: Bool = false,
                       separator: String = "/") -> String
     {
@@ -39,11 +39,11 @@ extension Namespace {
 
         var codes = [String]()
         if assets.count > 0 {
-            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, useSwiftUI: useSwiftUI, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
+            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, target: target, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
         }
 
         if sub.count > 0 {
-            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
+            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", target: target, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
         }
 
         return """
