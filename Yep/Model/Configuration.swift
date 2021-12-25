@@ -10,6 +10,8 @@ import Foundation
 
 struct Configuration: Codable {
     var assetPath: String
+    var nsColorDestination: String?
+    var nsImageDestination: String?
     var uiColorDestination: String?
     var uiImageDestination: String?
     var swiftUIColorDestination: String?

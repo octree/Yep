@@ -13,8 +13,8 @@ func generateI18nCode(path: String, destination: String, isSPM: Bool) {
         let source = try String(contentsOf: URL(fileURLWithPath: path))
         let tree = try Parser(input: source).parseToTree()
         let code = """
-        \(fileComments(title: "I18n"))
-        \(tree.generateCode(namespace: "", indentation: "", useSwiftUI: false, isSPM: isSPM, separator: "."))
+        \(fileComments(title: "I18n", target: nil))
+        \(tree.generateCode(namespace: "", indentation: "", target: .swiftUI, isSPM: isSPM, separator: "."))
         """
         try save(code: code, path: destination)
         print("🍻 \u{001b}[38;5;35m成功生成「I18n」代码")
@@ -32,23 +32,33 @@ do {
     let config = try JSONDecoder().decode(Configuration.self, from: data)
     let walker = AssetsWalker(path: config.assetPath.absolutePath, namespace: config.assetNamespace)
     let assets = try walker.walk()
+    if let path = config.nsImageDestination {
+        try save(code: assets.imagesCode(target: .appKit, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for NSImage」代码")
+    }
+
     if let path = config.uiImageDestination {
-        try save(code: assets.imagesCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
+        try save(code: assets.imagesCode(target: .uiKit, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIImage」代码")
     }
     
     if let path = config.swiftUIImageDestination {
-        try save(code: assets.imagesCode(useSwiftUI: true, isSPM: config.isSPM == true), path: path.absolutePath)
+        try save(code: assets.imagesCode(target: .swiftUI, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for SwiftUI.Image」代码")
+    }
+
+    if let path = config.nsColorDestination {
+        try save(code: assets.colorsCode(target: .appKit, isSPM: config.isSPM == true), path: path.absolutePath)
+        print("🍻 \u{001b}[38;5;35m成功生成「Assets for NSColor」代码")
     }
     
     if let path = config.uiColorDestination {
-        try save(code: assets.colorsCode(useSwiftUI: false, isSPM: config.isSPM == true), path: path.absolutePath)
+        try save(code: assets.colorsCode(target: .uiKit, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for UIColor」代码")
     }
     
     if let path = config.swiftUIColorDestination {
-        try save(code: assets.colorsCode(useSwiftUI: true, isSPM: config.isSPM == true), path: path.absolutePath)
+        try save(code: assets.colorsCode(target: .swiftUI, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for SwiftUI.Color」代码")
     }
 

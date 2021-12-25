@@ -8,12 +8,19 @@
 
 import Foundation
 
+
+enum Target {
+    case appKit
+    case uiKit
+    case swiftUI
+}
+
 struct Assets {
     var imagesTree: Namespace
     var colorsTree: Namespace
 }
 
-func fileComments(title: String, useSwiftUI: Bool = false) -> String {
+func fileComments(title: String, target: Target?) -> String {
     let date = Date()
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy/M/d"
@@ -21,15 +28,31 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
     formatter.dateFormat = "yyyy"
     let year = formatter.string(from: date)
     let imports: String
-    if useSwiftUI {
-        imports = """
-        import SwiftUI
-        """
+
+    if let target = target {
+        switch target {
+        case .appKit:
+            imports = """
+            #if os(macOS) && !targetEnvironment(macCatalyst)
+            import AppKit
+            """
+        case .uiKit:
+            imports = """
+            #if !os(macOS) || targetEnvironment(macCatalyst)
+            import UIKit
+            """
+        case .swiftUI:
+            imports = """
+            import SwiftUI
+            """
+        }
     } else {
         imports = """
-        import UIKit
+        import Foundation
         """
     }
+
+
     return """
     //
     //  \(title)
@@ -45,21 +68,25 @@ func fileComments(title: String, useSwiftUI: Bool = false) -> String {
 }
 
 extension Assets {
-    func colorsCode(useSwiftUI: Bool = false, isSPM: Bool = false) -> String {
+    func colorsCode(target: Target, isSPM: Bool = false) -> String {
+        let baseType = Asset.returnType(type: .color, target: target)
         return """
-        \(fileComments(title: "Color Assets", useSwiftUI: useSwiftUI))
-        extension \(useSwiftUI ? "Color": "UIColor") {
-        \(colorsTree.generateCode(indentation: "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        \(fileComments(title: "Color Assets", target: target))
+        extension \(baseType) {
+        \(colorsTree.generateCode(indentation: "    ", target: target, isSPM: isSPM, separator: "/"))
         }
+        \(target == .swiftUI ? "" : "#endif")
         """
     }
     
-    func imagesCode(useSwiftUI: Bool = false, isSPM: Bool = true) -> String {
+    func imagesCode(target: Target, isSPM: Bool = true) -> String {
+        let baseType = Asset.returnType(type: .image, target: target)
         return """
-        \(fileComments(title: "Image Assets", useSwiftUI: useSwiftUI))
-        extension \(useSwiftUI ? "Image": "UIImage") {
-        \(imagesTree.generateCode(indentation: "    ", useSwiftUI: useSwiftUI, isSPM: isSPM, separator: "/"))
+        \(fileComments(title: "Image Assets", target: target))
+        extension \(baseType) {
+        \(imagesTree.generateCode(indentation: "    ", target: target, isSPM: isSPM, separator: "/"))
         }
+        \(target == .swiftUI ? "" : "#endif")
         """
     }
 }
