@@ -16,8 +16,11 @@ struct Configuration: Codable {
     var uiImageDestination: String?
     var swiftUIColorDestination: String?
     var swiftUIImageDestination: String?
+    var imageKeyDestination: String?
+    var colorKeyDestination: String?
     var i18nStringsPath: String?
     var i18nDestination: String?
     var assetNamespace: String?
     var isSPM: Bool?
+    var skip: [String]?
 }

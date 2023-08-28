@@ -31,7 +31,7 @@ do {
     let data = try Data(contentsOf: URL(fileURLWithPath: configPath))
     let config = try JSONDecoder().decode(Configuration.self, from: data)
     let walker = AssetsWalker(path: config.assetPath.absolutePath, namespace: config.assetNamespace)
-    let assets = try walker.walk()
+    let assets = try walker.walk(skip: Set(config.skip ?? []))
     if let path = config.nsImageDestination {
         try save(code: assets.imagesCode(target: .appKit, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for NSImage」代码")
@@ -60,6 +60,18 @@ do {
     if let path = config.swiftUIColorDestination {
         try save(code: assets.colorsCode(target: .swiftUI, isSPM: config.isSPM == true), path: path.absolutePath)
         print("🍻 \u{001b}[38;5;35m成功生成「Assets for SwiftUI.Color」代码")
+    }
+
+    assets.colorsTree.name = "ColorKey"
+    if let path = config.colorKeyDestination {
+        try save(code: assets.colorKeyCode(), path: path)
+        print("🍻 \u{001b}[38;5;35m成功生成「ColorKey」代码")
+    }
+
+    assets.imagesTree.name = "ImageKey"
+    if let path = config.imageKeyDestination {
+        try save(code: assets.imageKeyCode(), path: path)
+        print("🍻 \u{001b}[38;5;35m成功生成「ImageKey」代码")
     }
 
     if let path = config.i18nStringsPath, let destination = config.i18nDestination {

@@ -12,21 +12,16 @@ public class Parser {
     /// current position
     var pos: Int = 0
     /// source code
-    var input: String
-    ///
-    var startIndex: String.Index {
-        return input.index(input.startIndex, offsetBy: pos)
-    }
-
+    var input: ContiguousArray<Character>
     /// is current position end of file
     var eof: Bool {
         return pos >= input.count
     }
-    
+
     public init(input: String) {
-        self.input = input
+        self.input = ContiguousArray(input)
     }
-    
+
     func parse() throws -> [(String, String)] {
         var result = [(String, String)]()
         while !eof {
@@ -34,7 +29,7 @@ public class Parser {
             if eof {
                 break
             } else if startWith("\"") {
-                result.append(try parsePair())
+                try result.append(parsePair())
             } else {
                 throw ParseError.notMatch
             }
@@ -45,13 +40,18 @@ public class Parser {
 
 public extension Parser {
     func startWith(_ str: String) -> Bool {
-        return input[startIndex...].hasPrefix(str)
+        guard str.count <= input.count - pos else { return false }
+        let list = ContiguousArray(str)
+        for (offset, ch) in list.enumerated() {
+            if ch != input[offset + pos] { return false }
+        }
+        return true
     }
-    
+
     func nextChar() -> Character {
         return input[pos]
     }
-    
+
     @discardableResult
     func consumeChar() -> Character {
         defer {
@@ -59,11 +59,11 @@ public extension Parser {
         }
         return input[pos]
     }
-    
+
     func consumeWhiteSpace() {
         consumeWhile { $0.isWhitespace }
     }
-    
+
     func parsePair() throws -> (String, String) {
         try skip()
         let key = try parseString()
@@ -75,7 +75,7 @@ public extension Parser {
         try eat(";")
         return (key, val)
     }
-    
+
     func skip() throws {
         while !eof {
             if nextChar().isWhitespace {
@@ -89,7 +89,7 @@ public extension Parser {
             }
         }
     }
-    
+
     @discardableResult
     func consumeWhile(_ test: (Character) -> Bool) -> String {
         var chars = [Character]()
@@ -98,14 +98,14 @@ public extension Parser {
         }
         return String(chars)
     }
-    
+
     func eat(_ text: String) throws {
         guard startWith(text) else {
             throw ParseError.notMatch
         }
         (0 ..< text.count).forEach { _ in consumeChar() }
     }
-    
+
     func parseString() throws -> String {
         try eat("\"")
         var chs = [Character]()
@@ -113,7 +113,7 @@ public extension Parser {
             if nextChar() == "\\" {
                 consumeChar()
                 if !eof {
-                    chs.append(try escaped(consumeChar()))
+                    try chs.append(escaped(consumeChar()))
                 }
             } else {
                 chs.append(consumeChar())
@@ -122,18 +122,18 @@ public extension Parser {
         try eat("\"")
         return String(chs)
     }
-    
+
     func skipMultiLineComment() throws {
         try eat("/*")
         consumeWhile { _ in !self.startWith("*/") }
         try eat("*/")
     }
-    
+
     func skipSingleLineComment() throws {
         try eat("//")
         consumeWhile { !$0.isNewline }
     }
-    
+
     private func escaped(_ char: Character) throws -> Character {
         switch char {
         case "\"":

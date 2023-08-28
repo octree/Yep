@@ -14,7 +14,7 @@ struct AssetsWalker {
 }
 
 extension AssetsWalker {
-    func walk() throws -> Assets {
+    func walk(skip: Set<String> = []) throws -> Assets {
         let namespace = namespace?.capitalizingFirstLetter ?? "Assets"
         var isDir: ObjCBool = false
         guard FileManager.default.fileExists(atPath: path, isDirectory: &isDir), isDir.boolValue else {
@@ -25,6 +25,8 @@ extension AssetsWalker {
         let colorNamespace = Namespace(name: namespace)
         colorNamespace.isRoot = true
         try createAssets(at: URL(fileURLWithPath: path), imageNamespace: imageNamespace, colorNamespace: colorNamespace)
+        colorNamespace.sub = colorNamespace.sub.filter { !skip.contains($0.name) }
+        imageNamespace.sub = imageNamespace.sub.filter { !skip.contains($0.name) }
         return Assets(imagesTree: imageNamespace, colorsTree: colorNamespace)
     }
 

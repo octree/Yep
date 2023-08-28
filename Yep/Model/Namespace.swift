@@ -15,7 +15,7 @@ class Namespace {
     var isRoot: Bool = false
 
     var isEmpty: Bool {
-        guard assets.count == 0 else {
+        guard assets.isEmpty else {
             return false
         }
         return sub.allSatisfy { $0.isEmpty }
@@ -33,17 +33,23 @@ extension Namespace {
                       indentation: String = "",
                       target: Target,
                       isSPM: Bool = false,
-                      separator: String = "/") -> String
+                      separator: String = "/",
+                      keyOnly: Bool = false) -> String
     {
-        let fullNamespace = isRoot ? "" : (namespace.count > 0 ? namespace + separator + name : name)
+        let fullNamespace = isRoot ? "" : (!namespace.isEmpty ? namespace + separator + name : name)
 
         var codes = [String]()
-        if assets.count > 0 {
-            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ", namespace: fullNamespace, target: target, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
+        if !assets.isEmpty {
+            codes.append(assets.map { $0.generateCode(indentation: indentation + "    ",
+                                                      namespace: fullNamespace,
+                                                      target: target,
+                                                      isSPM: isSPM,
+                                                      separator: separator,
+                                                      keyOnly: keyOnly) }.joined(separator: "\n\n"))
         }
 
-        if sub.count > 0 {
-            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", target: target, isSPM: isSPM, separator: separator) }.joined(separator: "\n\n"))
+        if !sub.isEmpty {
+            codes.append(sub.map { $0.generateCode(namespace: fullNamespace, indentation: indentation + "    ", target: target, isSPM: isSPM, separator: separator, keyOnly: keyOnly) }.joined(separator: "\n\n"))
         }
 
         return """

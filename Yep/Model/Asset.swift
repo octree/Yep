@@ -26,9 +26,9 @@ extension Asset {
     func initializer(assetName: String, isSPM: Bool, target: Target) -> String {
         switch (type, isSPM, target) {
         case (.string, true, _):
-            return #"NSLocalizedString("\#(assetName)", tableName: nil, bundle: .module, comment: "")"#
+            return #""\#(assetName)""#
         case (.string, false, _):
-            return #"NSLocalizedString("\#(assetName)")", comment: "")"#
+            return #""\#(assetName)""#
 
         case (.image, true, .appKit):
             return #"Bundle.module.image(forResource: "\#(assetName)")!"#
@@ -64,7 +64,7 @@ extension Asset {
 }
 
 extension Asset {
-    static func returnType(type: `Type`, target: Target) -> String {
+    static func returnType(type: Type, target: Target) -> String {
         switch type {
         case .string:
             return "String"
@@ -103,14 +103,15 @@ extension Asset {
                       namespace: String,
                       target: Target,
                       isSPM: Bool = false,
-                      separator: String = "/") -> String
+                      separator: String = "/",
+                      keyOnly: Bool) -> String
     {
         let assetName = namespace.count > 0 ? namespace + separator + name : name
-        let type = returnType(target: target)
-        let initializer = initializer(assetName: assetName, isSPM: isSPM, target: target)
+        let type = keyOnly ? "String" : returnType(target: target)
+        let initializer = keyOnly ? #""\#(assetName)""# :  initializer(assetName: assetName, isSPM: isSPM, target: target)
         return """
         \(indentation)public static var \(variableName): \(type) {
-        \(indentation)    return \(initializer)
+        \(indentation)    \(initializer)
         \(indentation)}
         """
     }
